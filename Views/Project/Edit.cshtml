@@ -1,0 +1,111 @@
+﻿@model EditProjectViewModel
+
+<br />
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <label class="h5">@Model.Title</label>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-controller="Project" asp-action="EditProject">
+                        <label class="h-100">Description</label>
+                        <input type="text" name="Description" title="" asp-for="@Model.Description"/>
+
+                        <input type="hidden" asp-for="@Model.Id" />
+                        <input type="submit" value="Save" />
+                    </form>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="card">
+                <div class="card-header">
+                    <strong>Current Active Document</strong>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Filename</th>
+                                <th>Description</th>
+                                <th>Added</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-light">
+                                <td>@Model.AttachmentCurrentlyActive.FileName</td>
+                                <td>@Model.AttachmentCurrentlyActive.Description</td>
+                                <td>@Model.AttachmentCurrentlyActive.DateCreated</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <form method="post" enctype="multipart/form-data" asp-controller="AttachmentLibrary" asp-action="UploadFile"
+                          asp-route-id="@Model.Id"
+                          asp-route-type="0">
+                        <input type="file" name="postedFile" />
+                        <input type="submit" id="btnUpload" value="Upload" class="btn btn-sm btn-primary" />
+                    </form>
+                </div>
+            </div>
+
+            <br />
+            <br />
+
+            <form method="post" asp-controller="File" asp-action="DownloadFile">
+                <input type="hidden" id="hfFileId" name="FileId" />
+                <input type="submit" id="btnDownload" value="Download" style="display:none" />
+            </form>
+
+            @Html.Partial("~/Views/Shared/Partials/AttachmentList.cshtml", Model.AttachmentsRecord)
+        </div>
+    <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <label class="h5">@Model.Title</label>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" asp-controller="AttachmentLibrary" asp-action="CreateLibrary"
+                          asp-route-id="@Model.Id"
+                          asp-route-type="0">
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Description" type="text" class="form-control" placeholder="Description">
+                            <label asp-for="Description">Description</label>
+                        </div>
+                        <input type="submit" id="btnUpload" value="Upload" class="btn btn-sm btn-primary" />
+                    </form>
+                </div>
+            </div>
+
+            <br />
+
+            @if(Model.AttachmentLibrary.Count() is not 0){
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Project Libraries</strong>
+                    </div>                
+                   @foreach (var item in Model.AttachmentLibrary)
+                    {
+                        <div class="card-body">
+                            @Html.Partial("~/Views/Shared/Partials/AttachmentList.cshtml", Model.AttachmentLibrary)
+                        </div>
+                    }
+                </div>   
+            }
+           
+     </div> 
+   </div>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    function DownloadFile(fileId) {
+        $("#hfFileId").val(fileId);
+        $("#btnDownload")[0].click();
+    };
+</script>

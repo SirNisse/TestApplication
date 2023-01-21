@@ -1,0 +1,54 @@
+﻿@model List<AttachmentsViewModel>
+
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Document History
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <table id="tblFiles" class="table">
+    <thead>
+    <tr>
+            <th scope="col">#</th>
+            <th scope="col">Created</th>
+            <th scope="col">FileName</th>
+            <th scope="col">Description</th>
+            <th scope="col">ContentType</th>
+            <th scope="col"></th>          
+    </tr>
+    </thead>
+    <tbody>
+        @{
+            int counter = Model.Count() + 1;
+        }
+        @foreach (var file in Model)
+        {
+            counter--;
+            <tr class="table-light">
+                <th scope="row">@counter</th>
+                <td>@file.DateCreated</td>
+                <td>@file.FileName</td>
+                <td>@file.Description</td>
+                <td>@file.ContentType</td>
+                <td><a href="javascript:;" onclick="DownloadFile(@file.Id)">Download</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+            </div>
+        </div>
+    </div>   
+</div>
+
+
+
+
+
+
+
+
+
+

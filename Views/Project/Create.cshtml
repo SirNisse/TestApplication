@@ -1,0 +1,40 @@
+﻿@model ProjectViewModel
+
+
+<div class="card">
+    <div class="card-header">
+        Create Project
+    </div>
+    <div class="card-body">
+        <form method="post" asp-controller="Project" asp-action="CreateProject" , new { enctype="multipart/form-data" }>
+            <div class="mx-auto" style="width: 800px;">
+                <div class="form-floating mb-3">
+                    <input asp-for="Title" type="text" class="form-control" placeholder="ProjectTitle">
+                    <label asp-for="Title">ProjectTitle</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Description" type="text" class="form-control" placeholder="Description">
+                    <label asp-for="Description">Description</label>
+                </div>
+                <div class="form-floating mb-3">
+                    @*  <form method="post" enctype="multipart/form-data" asp-controller="File" asp-action="UploadFile"
+                    asp-route-type="ActiveAttachment">*@
+                    @*<input asp-for="CreateActiveDocument" type="file" name="postedFile" />*@
+                    @*<input type="submit" id="btnUpload" value="Upload" class="btn btn-primary" />*@
+                    @*</form>*@
+
+
+                    @Html.TextBoxFor(m => m.UploadFiles, new { type = "file" })
+                    @Html.ValidationMessageFor(m => m.UploadFiles)
+                </div>
+
+                <div class="form-floating mb-3">
+                    <button type="submit" class="btn btn-primary">CreateProject</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
